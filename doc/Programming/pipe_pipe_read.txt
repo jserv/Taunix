@@ -1,0 +1,26 @@
+名稱
+	pipe_read - 自pipe中讀取資料
+	msgq_read - 自msgq中讀取資料
+
+語法
+	#include <Taunix.h> 
+	or
+	#include <Taunix\pipe.h>
+
+	int pipe_read(int phandle, unsigned int *buf, unsigned int size);
+	int msgq_read(unsigned int *buf);
+
+敘述
+	自pipe/msgq中讀取資料。Phandle指定pipe的handle﹔Buf指定讀取資料存放的位址，size指定讀取的unsigned
+	int的數量，對msgq_read的而言，一次讀取僅會取出一個unsigned int的值。
+
+傳回值
+	-1		指定的phandle不合法，或是pipe未開啟。
+	0		Pipe/msgq中無資料讀取
+	非零值	成功讀取的資料數量。
+
+限制
+
+
+參考
+	pipe_init, pipe, pipe_write, pipe_isFull, pipe_close, pipe_isEmpty, msgq, msgq_read, msgq_isFull, msgq_write, msgq_isEmpty

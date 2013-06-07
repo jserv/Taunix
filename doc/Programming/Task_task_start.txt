@@ -1,0 +1,23 @@
+名稱
+	task_start - 切入Taunix多工執行模式
+
+語法
+	#include <Taunix.h> 
+	or
+	#include <Taunix\Task.h>
+
+	void task_start();
+
+敘述
+	task_start會檢視工作表，並切換至最高優先權的工作執行。在執行過task_start之後，系統將不會再跳回原
+	程式之後，因此在task_start之後的程式碼是無意義的。
+
+傳回值
+	無
+
+限制
+	Taunix的排程系統必須維持最少有一個工作是處於備妥狀態，如任何一時期發生所有的工作都進入懸置，
+	則系統會產生無法預期的結果。
+
+參考
+	task_table_init, task_create, task_kill, texit, suspend, resume, resched

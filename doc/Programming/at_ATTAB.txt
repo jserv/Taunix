@@ -1,0 +1,34 @@
+名稱
+	DEFINE_ATTAB_BEGIN - 定義週期工作表開始
+	ATJOB - 加入一個週期性工作
+	DEFINE_ATTAB_END - 定義週期性工作表結束
+
+語法
+	#include <Taunix.h> 
+	or
+	#include <Taunix\at.h>
+
+	巨集 DEFINE_ATTAB_BEGIN
+	巨集 ATJOB(unsigned job_no,unsigned (* job_func)(), unsigned job_period);
+	巨集 DEFINE_ATTAB_END
+
+敘述
+	這三組巨集用於定義atd_init()所需的週期性工作表，DEFINE_ATTAB_BEGIN/DEFINE_ATTAB_END
+	是為表頭與表尾，真正的工作是由ATJOB加入工作表中的。job_no代表工作代號，如同一般工作的
+	優先權一般，job_no須大於等於0，其最大值內定是10，也就是說AT模組最大接受十一個週期性工
+	作，此項限制可由at.h的的MAX_PERIODICJOB定義項修改。job_no越小則代表當同時週期到達時，
+	越先被執行，相當於優先權。job_func是實際的工作主體，其宣告型態應為unsigned job_func()，job_func
+	的傳回值將會影響該工作是否繼續留在工作表內：傳回0，代表工作結束，下一週期不須再執行﹔
+	傳回大於0的值，代表下一週期繼續執行，但不影響週期。job_period則是該工作的執行週期。
+
+傳回值
+	無傳回值
+
+限制
+	週期性工作模組須配合即時時鐘或是計時器使用，否則所有的週期性工作將不會被執行。
+
+	即使系統一開始並沒有需要指定週期工作，仍須定義週期工作表，但可不使用ATJOB定義新的週期工作
+	也就是說須定義一個空的工作表。
+
+參考
+	atd_init, at, atkill, atd

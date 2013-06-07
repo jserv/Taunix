@@ -1,0 +1,27 @@
+名稱
+	sleep - 暫停程式執行clk_tck個ticks
+
+語法
+	#include <Taunix.h> 
+	or
+	#include <Taunix\sleep.h>
+
+	int sleep(unsigned clk_tck);
+敘述
+	sleep可使程式暫停clk_tck個tick的時間，暫停期間排程系統會將執行權交給次最高優先權的工作執行。
+	DSP tick的時間的長度會與其鎖相迴路時脈與即時時鐘中斷的設定有關，以240而言，當CLK_IN的時脈為
+	2的冪次時，Taunix會設定其tick的時間為244us，否則為256us，243DSP由於沒有即時時鐘，其tick時間的長
+	短就須看電路板上使用的即時時鐘脈衝會提供多快的中斷。
+	進入睡眠的工作，須由即時時鐘中斷維護其睡眠時間，並呼叫wakeup叫醒到達睡眠時間的工作，但如須
+	在時間到達前叫醒工作，使用resume呼叫即可回復原工作的執行狀態。
+
+傳回值
+	SLEEP_EXPIRED	已達到睡眠時間。
+	SLEEP_NOTEXPIRED	尚未達到睡眠時間，工作即被叫醒。
+
+限制
+	如目標系統無即時時鐘中斷，如243 DSP，則必須由外部設法產生一個週期性的脈衝以定時的中斷DSP，
+	否則sleep模組無法正常運作。
+
+參考
+	sleep_init, wakeup, resume, WDRTI模組設定, PLLCLK巨集設定

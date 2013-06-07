@@ -1,0 +1,25 @@
+名稱
+	pipe_isEmpty - 測試通訊管道內是否有資料可供讀取
+	msgq_isEmpty - 測試訊息佇列內是否有資料可供讀取
+
+語法
+	#include <Taunix.h> 
+	or
+	#include <Taunix\pipe.h>
+
+	int pipe_isEmpty(int phandle);
+	int msgq_isEmpty();
+
+敘述
+	測試pipe/msgq內是否有資料。
+
+傳回值
+	1	Pipe/msgq已有資料可供讀取。
+	0	Pipe/msgq中無資料可讀取。
+
+限制
+
+
+參考
+	pipe_init, pipe, pipe_read, pipe_write, pipe_close, pipe_isFull, msgq, msgq_read, msgq_write, 
+	msgq_close, msgq_isFull

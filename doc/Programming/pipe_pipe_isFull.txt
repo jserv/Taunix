@@ -1,0 +1,25 @@
+名稱
+	pipe_isFull - 測試通訊管道內是否已滿載
+	msgq_isFull - 測試訊息佇列內是否已滿載
+
+語法
+	#include <Taunix.h> 
+	or
+	#include <Taunix\pipe.h>
+
+	int pipe_isFull(int phandle);
+	int msgq_isFull();
+
+敘述
+	測試pipe/msgq內是否已滿載。
+
+傳回值
+	1	Pipe/msgq已滿載。
+	0	Pipe/msgq已滿載。
+
+限制
+
+
+參考
+	pipe_init, pipe, pipe_read, pipe_write, pipe_close, pipe_isEmpty, msgq, msgq_read, msgq_write, 
+	msgq_close, msgq_isEmpty

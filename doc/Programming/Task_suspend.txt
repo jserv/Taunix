@@ -1,0 +1,23 @@
+名稱
+	suspend - 暫停程式的執行
+
+語法
+	#include <Taunix.h> 
+	or
+	#include <Taunix\Task.h>
+
+	int suspend(int task_id);
+
+敘述
+	suspend是用於暫停/懸置task_id(同時也就是該工作的優先權)工作的執行。suspend可用於暫停其他工作，或
+	是目前工作，目前工作的task_id可由全域性變數current_task取得。
+
+傳回值
+	-1	無法暫停該工作，prio的指定不合法，或是該工作不存在。
+	1	成功
+
+限制
+	suspend並不適合於中斷中使用。
+
+參考
+	task_table_init, task_create, task_kill, texit, task_start, resume, resched

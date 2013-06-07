@@ -1,0 +1,27 @@
+名稱
+	pipe_init - 初始化pipe與msgq IPC機制
+
+語法
+	#include <Taunix.h> 
+	or
+	#include <Taunix\pipe.h>
+
+	void pipe_init();
+
+敘述
+	Pipe_init用於初始化通訊管道與訊息佇列，須於main()中叫用。對應於每一個工作的訊息佇列是使用pipe
+	與以實作，所以叫用pipe_init後通訊管道與訊息佇列均可設定完成。
+
+傳回值
+	無傳回值
+
+限制
+	Pipe在初始化時，會產生出MAX_TASK + MAX_PIPE個pipe，前MAX_TASK個將用於對應每一個工作的訊息
+	佇列，後MAX_PIPE則用於通訊管道。內定MAX_PIPE為10個，如欲修改設定，須於pipe.h中斷更MAX_PIPE
+	定義項。
+
+	Pipe/msgq並不適用於中斷處理程式與工作交換資料之用。
+
+參考
+	pipe, pipe_close, pipe_read, pipe_write, pipe_isEmpty, pipe_isFull, msgq, msgq_close, msgq_read, msgq_write, 
+	msgq_isEmpty, msgq_isFull

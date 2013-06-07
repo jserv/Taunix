@@ -1,0 +1,22 @@
+名稱
+	resume - 回復程式的執行
+
+語法
+	#include <Taunix.h> 
+	or
+	#include <Taunix\Task.h>
+
+	int resume(int task_id);
+
+敘述
+	resume可用於回復先前用suspend所暫停的工作。
+
+傳回值
+	-1	無法回復該工作，prio的指定不合法，或是該工作不存在或不處於懸置狀態。
+	1	成功
+
+限制
+	resume可用於中斷處理程式內，但並不會立即產生重新排程的動作。
+
+參考
+	task_table_init, task_create, task_kill, texit, task_start, suspend, resched

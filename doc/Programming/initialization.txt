@@ -1,0 +1,119 @@
+initialization.txt
+Documentation Date:1999-11-1
+
+這篇文件是用於說明如何啟動及初始設定Taunix
+
+
+	使用Taunix作DSP的程式設計，須依照下列的程序進行：
+
+1.含括檔
+	所有Taunix系統所需的宣告均在<Taunix.h>內，但要注意的是，Taunix從0.7.4版開始增加支援多種DSP
+的能力，因此在#include <Taunix.h>之前，須宣告目標系統所使用的DSP種類，如此程式的宣告才能依照DSP種
+類進行連結，也許未來能將系統的設計介面更進一步的一致化時，就不須再這麼做了。目前可用的DSP宣告有：
+	TI_DSP32Cx240
+	TI_DSP32Cx243
+
+因此程式一開始應該看起來像：
+	#define TI_DSP32Cx240
+	#include <Taunix.h>
+
+2.程式進入點 main()函式
+	Taunix依舊使用main()當作程式進入點，但main()中必須完成Taunix的初始設定，這些包括硬體的設定、
+Taunix各模組的初始化，工作的產生與切入多工模式等。
+
+/* ------------------------------------------------------------------------------------------*\
+PS:為什麼main()還要完成這麼多瑣碎的事情？Taunix為什麼不能一手包辦？
+	是的，我也想這麼做。但是，由於嵌入式系統的設計彼此的變異性相當大，如果Taunix使用一個通用的初始
+	設定程序，那勢必要將所有的模組都啟動，但是並不是所有的應用都需要這些模組，例如說一個240DSP負責
+	馬達的控制，所以它需要用到Capture unit, ADC, PWM, timer等等，另外一個243DSP負責CAN bus的介面
+	，所以只需要使用CAN controller, SCI等，如果載入了不需要的模組，那只是造成記憶體的浪費，不算是
+	一個最佳化的系統，基於這些考量，Taunix還是使用‘半自動式’的初始設定。
+
+	另外有一個計劃正在進行，就是TaunixFE：Taunix前端程式產生器，利用TaunixFE可幫助應用程式開發者
+	快速的完成系統初設的程式碼，並減少硬體間的衝突發生。
+\* ------------------------------------------------------------------------------------------*/
+
+	硬體設定：這主要是牽涉到DSP的運作模式，比方說240DSP的鎖相迴路時脈產生器的設定、看門狗的設定、
+	中斷旗標、共用輸出入埠的設定等等
+
+	驅動程式模組初始化：你可能會需要使用24xDSP的周邊，因此你需要在main()中初始你所需要的週邊模組。
+
+	工作的產生：當然，既然要撰寫DSP的應用，自然是要DSP做點事情，新工作的產生就必須在main()進行。
+	請注意，這不是說只能在main()中產生工作，只是如果不在main()中至少產生一個工作的話，一但排程系
+	統開始運作，就會發生無工作可執行的情況，進而發生不可預期的後果，所以務必在此產生至少一個工作
+	，且在程式運作的全期，也必須要保持至少有一個工作是ready狀態的(不能所有的工作均處於懸置態)。
+
+	切入多工：這是最後一個步驟，呼叫task_start()後系統將切入優先權最高的工作執行。main()到這邊就
+	可以結束了，任何寫在task_start()之後的程式碼，將永遠不會被CPU core執行到。
+
+	以下提供一個範例程式，這是針對240 DSP的：
+
+#define TI_DSP32Cx240
+#include <Taunix.h>
+
+
+void idle()
+{
+	TASK_RUNNING
+		
+	KSAT
+}
+unsigned idleStack_31[64]
+void main()
+{                        
+		
+	/* setup PLL clock */
+	PLLCLK_SETUP(CKCR0,CLKMD_CLKIN|PLLPM_DEFAULT|ACLK_DISABLE|PLLPS_CPUCLK_2);
+	PLLCLK_SETUP(CKCR1,CKINF_10|PLLDIV_1|PLLFB_4);
+	PLLCLK_SETUP(CKCR0,CLKMD_PLL|PLLPM_DEFAULT|ACLK_DISABLE|PLLPS_CPUCLK_2);
+	
+ 	/* setup watch-dog/real-time int */
+	WDRTI_ENABLEWD;
+	WDRTI_ENABLERTI;
+
+	/* Initialize system moduals */
+	task_table_init(); 
+	wdrt_init();
+	gpt_init();
+
+	/* setup interrupt mask */
+	MMREGS[IMR] = 0x0039;
+	MMREGS[EVIMRC]=0x0F;
+
+	/* If want to use DIO port */
+	/*
+	MMREGS[OCAR]=...
+	MMREGS[OCRB]=...
+	*/
+    
+    /* Create new task */
+    task_create(idle,idleStack_31,31,"idle");
+
+    /* Start multitasking */
+    task_start();	
+}
+
+3.安排中斷
+	由於Taunix幾乎完全使用C語言來完成，所以就必須替C建立起run-time環境。TI的library裡提供了一個
+c_int0()的第0號中斷程式，這個中斷程式必須手動的加入(當然，TaunixFE可以自動完成)，同時其他的中斷程式
+也必須加入到DSP的vector table裡面。以下是中斷向量的程式範例：
+
+	.global _c_int0
+	.global _c_int1
+	.global _c_int2
+	.global _c_int3
+	.global _c_int4
+	.global _c_int5
+	.global _c_int6
+	.sect ".vectors"
+INT_VETTAB:
+	B	_c_int0
+	B	_c_int1
+	B	_c_int2
+	B	_c_int3        
+	B	_c_int4        
+	B	_c_int5
+	B	_c_int6
+	.end
+
+	經由上述的程序，即可建立起Taunix的執行環境。

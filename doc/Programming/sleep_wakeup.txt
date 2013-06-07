@@ -1,0 +1,30 @@
+名稱
+	wakeup - 喚醒睡眠中的工作
+
+語法
+	extern void wakeup();
+	void wakeup();
+
+敘述
+	Wakeup呼叫是用於喚醒睡眠中的工作，當wakeup被呼叫時，會檢查sleep queue中的第一個工作是否到達睡眠
+	時限，若是，則會叫醒所有到達睡眠時限的工作，否則立即返回。
+
+傳回值
+	無傳回值。
+
+限制
+	如目標系統無即時時鐘中斷，如243 DSP，則必須由外部設法產生一個週期性的脈衝以定時的中斷DSP，
+	否則sleep模組無法正常運作。
+
+	Wakeup呼叫並不修改sleep queue中每一個工作的睡眠時限，必須由即時時鐘中斷程式來完成，同時wakeup
+	也不應該在即時時鐘中斷以外的任何地方被呼叫，這麼做會造成sleep模組資料結構的錯亂。詳細的設計
+	使用範例，請參考TINT1.c程式碼。
+
+	Sleep queue的實作，在Taunix version 0.7.4是使用prioirty list實作成differential sleep queue，由priNode的prio
+	欄位代表differentail sleep queue的diff值，也就是說，sleep queue中第一個工作紀錄的是該工作的睡眠時限
+	，第二個工作就只紀錄其與第一個工作相距多少tick，依此類推，所以即時時鐘中斷每次只要將第一
+	個工作的睡眠時限減一，即代表所有睡眠中的工作，其睡眠時限均減一。
+
+參考
+	sleep_init, sleep, resume, WDRTI模組設定, PLLCLK巨集設定, TINT1.c即時時鐘中斷處理程式, priList串列工
+	具模組

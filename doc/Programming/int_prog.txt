@@ -1,0 +1,43 @@
+int_prog.txt
+Documentation Date:1999-11-1
+
+這篇文件是用於說明如何撰寫Taunix的中斷處理程式
+
+
+	Taunix的中斷處理程式必須完全依照TI C compiler的規劃來寫，TI C compiler中支援10個關鍵字：
+c_int0()到c_int9()一共十個函式，可用來撰寫中斷處理程式。這十個函式與一般的函是最大的不同點，是在於當程式
+進入到c_int?()時，編譯器會先將CPU core的所有站存器儲存到data stack中，再設定函式要用的堆疊區域，同時還會
+將DSP的中斷給暫停掉；而要離開前，編譯器會自動的加入回復CPU core所有站存器的值，並將中斷打開。以Taunix
+的觀點而言，整個中斷處理程式是必須在critical section中執行的。
+
+	在撰寫中斷處理程式時，有幾點是必須要注意的：第一個就是資料完整性的問題。中斷發生的時間通常程式
+是無法控制或預知的，所以當中斷發生時，很有可能應用程式正在修改某些資料，此時如果中斷處理程式也同時去
+修改同一個記憶體區塊的話，那資料完整性的問題就必須要考慮。
+
+	第二個，Taunix規劃有一個中斷旗標:int_flag，是用於指示系統是否正處於中斷處理程式內，而這個旗標會影響
+resume()的運作。在先前的測試中，曾發現如果在中斷裡resume一個工作的話，會很容易導致DSP發生reset，原因不明
+，但可能是硬體堆疊的問題，但是，基本上C compiler會處理stack的問題，所以我並不清楚是為何會發生reset。但後來
+發現，只要延後resume()的resched()動作，問題就可以得到解決。因此新的設計，若是在中斷裡使用resume()，並不會
+立即執行resched()，相對的，會將sched_flag設成SCHED_DELAYED，延遲排程，所以當中斷處理程式要離開前，必須
+要檢查sched_flag是否為SCHED_DELAYED，若是，則必須叫用resched()一次以重新排程。
+
+	下面是Taunix中斷處理程式的概略範例：
+
+void c_int1()
+{
+	ISR_ENTRY		/* 設定進入中斷 */
+
+	/* 這裡即是中斷處理程式的內容 */
+
+	ISR_EXIT		/* 準備離開中斷 */
+
+	if(sched_flag == SCHED_DELAYED){ /* 如果上述程式用過resume()，就必須加以下的程式 */
+		/* 通常回呼函式裡是很有可能用到resume()的 */
+		enable_sched;  /* 啟動重新排程 */
+		/*
+		 當完成重新排成而曾發生switch_task的話，當切換回此處時，中斷會被打開，但後面還有
+		 CPU core的context要restore，因此必須要再暫停中斷 
+		*/
+		disable_int;	
+	}
+}

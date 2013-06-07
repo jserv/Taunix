@@ -1,0 +1,22 @@
+名稱
+	resched - 重新排程
+
+語法
+	#include <Taunix.h> 
+	or
+	#include <Taunix\Task.h>
+
+	void resched();
+
+敘述
+	resched會立即檢視工作表，並選出及切換至最高優先權的工作。resched可支援32或是16個工作容量的設定
+	，該設定在Task.h中的MAX_TASK的定義項，修改之後必須重新編譯核心，系統才能正常運作。
+
+傳回值
+	無
+
+限制
+	如在排程器等級的critical section中使用resched，resched會立即返回不會有任何動作。
+
+參考
+	task_table_init, task_create, task_kill, texit, task_start, suspend, resume

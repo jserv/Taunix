@@ -1,0 +1,33 @@
+名稱
+	pipe - 開啟一個通訊管道
+	msgq - 開啟工作的訊息佇列
+
+語法
+	#include <Taunix.h> 
+	or
+	#include <Taunix\pipe.h>
+
+	int pipe(unsigned int *pbuf, int size, int mode);
+	int msgq(unsigned int *buf, int size);
+
+敘述
+	Pipe用於開啟一個通訊管道以供使用，管道所需的儲存空間，由pbuf指定，size設定其大小，單位是以
+	unsigned int 計算(注意與SCI或是SECS的設定不同)，mode則是設定此通訊管道的訊息傳遞處理原則：
+	PIPE_OVERWRITE會使pipe在收到超過pbuf容量的資料時，蓋過舊的資料，只保留最新的size數量的資料
+	﹔PIPE_NONOVERWRITE設定則會使pipe在超過容量停止工作。
+	
+	Msgq的設定與pipe相同，但是msgq的資料處理模式是由系統設定為PIPE_OVERWIRTE。另外，每個工作的
+	msgq handle是與該工作的優先權(或說是Task ID)相同的。
+
+傳回值
+	-1		通訊管道開啟失敗，無可用的pipe可使用。
+	1		Msgq成功開啟(對msgq呼叫有效)。
+	pipe handle	成功開啟管道，傳回管道的handle值(對pipe呼叫有效)。
+
+限制
+	Pipe所處理的是屬於單向的管道，如要使用雙向管道，則須開啟兩個管道來完成。
+	雖然工作的msgq亦是由pipe所實作，但是pipe不能用於開啟工作的msgq，須使用msgq系統函式。
+
+參考
+	pipe_init, pipe_close, pipe_read, pipe_write, pipe_isEmpty, pipe_isFull, msgq_close, msgq_read, msgq_write, 
+	msgq_isEmpty, msgq_isFull

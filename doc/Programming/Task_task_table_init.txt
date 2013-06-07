@@ -1,0 +1,26 @@
+名稱
+	task_table_init - 初始化核心工作表
+
+語法
+	#include <Taunix.h> 
+	or
+	#include <Taunix\Task.h>
+
+	void task_table_init();
+
+敘述
+	task_table_init()用於Taunix初始化時設定核心內的工作表陣列，必須在Taunix的DSP應用程式的main()中呼叫。
+	task_table_init()會重設所有工作表內的工作控制區塊(TCB)，使以後的Task模組相關呼叫能正常運作。
+
+傳回值
+	無傳回值
+
+錯誤值
+	無錯誤值
+
+限制
+	Taunix所支援的工作數量為32或是16個，其設定為在於Task.H裡的MAX_TASK定義項，可視實際的需要修改
+	該項設定，但一但修改後，Task模組必須重新編譯才能使用。
+
+參考
+	task_create, task_kill, task_start, resume, suspend, resched, texit

@@ -1,0 +1,26 @@
+名稱
+	pipe_close - 關閉一個通訊管道
+	msgq_close - 關閉工作的訊息佇列
+
+語法
+	#include <Taunix.h> 
+	or
+	#include <Taunix\pipe.h>
+
+	int pipe_close(int phandle);
+	int msgq_close();
+
+敘述
+	此兩組呼叫使用於關閉一個管道或是該工作的訊息佇列。Phandle為由pipe呼叫所成功傳回的pipe handle，
+	msgq則直接關閉目前工作的佇列。
+
+傳回值
+	-1	失敗，指定的phandle不合法。
+	1	成功。
+
+限制
+	Pipe_close對工作的訊息佇列一樣有效。
+
+參考
+	pipe_init, pipe, pipe_read, pipe_write, pipe_isEmpty, pipe_isFull, msgq, msgq_read, msgq_write, 
+	msgq_isEmpty, msgq_isFull

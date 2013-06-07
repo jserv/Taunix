@@ -1,0 +1,27 @@
+名稱
+	task_kill/texit - 結束一個的工作
+
+語法
+	#include <Taunix.h> 
+	or
+	#include <Taunix\Task.h>
+
+	int task_kill( int prio);
+	void texit();
+
+敘述
+	task_kill可用於解除優先權為prio的工作的執行權，不論此工作是處於備妥或是懸置狀態。texit則是用於工作
+	欲自行結束執行。
+	task_kill通常應是使用於結束其他工作，而texit則是用於結束目前的工作。
+
+傳回值
+	-1	無法結束該工作，prio的指定不合法。
+	1	成功
+	如果指定的prio並無工作佔用，task_kill也會傳回1。
+	texit無傳回值。
+
+限制
+	如工作欲自行結束，切勿使用TI C library的exit函式，該函式會造成系統停滯。
+
+參考
+	task_table_init, task_create, task_start, resume, suspend

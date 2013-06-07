@@ -1,0 +1,29 @@
+critical_section.txt
+Documentation Date:1999-11-2
+
+這篇文件是用於說明使用critical section時應注意的事項
+
+	Taunix的critical section區分為兩個等級，一個中斷層次，一個是排程系統層次。中斷層次的critical section
+是使用disable_int與enable_int兩個巨集來界定，當程式執行到這兩個巨集間時，中斷是被暫停的，所以中斷層級
+的critical section必須設計得盡可能的短，因為中斷被暫停的越久，遺失掉重要中斷訊息的機會就越大，相對的
+就會影響整個即時系統的效能。另外，為了設計使用上的方便，disable_int/enable_int並不會促使編譯器對critical 
+section區塊進行語法檢查，所以使用critical section時，務必確認最後enable_int要被執行到，否則中斷就有可能一
+直處於被暫停的狀態。
+
+	第二個是排程系統層級的critical section，使用disable_sched與enable_sched兩個巨集來界定。排程系統的
+critical section只會對工作有效，也就是說disable_sched會暫停系統排程器的運作，即使呼叫resume()/suspend()
+，resched()都不會真的進行重新排程，並切換到最高執行權的工作去。但是由於程式在此期間有可能會使用
+排程相關的系統函式，所以enable_sched巨集在打開排程器之後，會立即叫用resched()一次，以確保系統仍是
+維持永遠只有最高優先權的工作在執行(這裡可以看做進入排程系統critical section的程式是暫時的取得最高執
+行權)。與中斷的critical section相同的是，disable_sched/enable_sched也不會促使編譯器進行語法分析，所以程式
+一定要確保disable_sched後，enable_sched要被執行到。
+
+	另外要注意的是，在中斷層級的critical section中使用排程相關的系統函式，是會使系統重新排程，並切
+換到最高優先權的工作去，同時切換的過程中，就會離開中斷層級的critical section。而在排程系統的critical 
+section裡，中斷系統是可以運作的。
+
+	根據上面的說明，以下提出使用critical section的設計建議：在一般的工作中僅使用排程等級的critical section
+，系統等級的(像是Taunix的Task模組)，或是全域性的資料維護，且此資料會與中斷程式(包含中斷內會使用的回
+呼函式)互動時，使用中斷等級的critcal section，不論哪一種，其間的程式都應該盡可能的短，以免影響效能。
+
+PS:中斷處理程式永遠是在中斷等級的critical section中執行。

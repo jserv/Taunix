@@ -1,0 +1,26 @@
+名稱
+	pipe_write - 寫資料進入pipe
+	msgq_write - 寫資料進入msgq
+
+語法
+	#include <Taunix.h> 
+	or
+	#include <Taunix\pipe.h>
+
+	int pipe_write(int phandle, unsigned int *buf, unsigned int size);
+	int msgq_write(int task, unsigned int msg);
+
+敘述
+	此兩組函是用於將資料寫入管道/佇列。Phandle用於指定管道的handle，task則是指定訊息要送達的的工作
+	號碼﹔Buf為欲傳送的資料的起始位址，大小為size個unsigned int。對於工作的msgq所接受的為一個unsigned 
+	int 的訊息msg。
+
+傳回值
+	-1		失敗。Pipe handle不合法，或是管道(NONOVERWRITE mode)/佇列已滿，或是管道/佇列尚未開啟。
+	非零值	成功傳送的資料數量。
+
+限制
+
+
+參考
+	pipe_init, pipe, pipe_read, pipe_isFull, pipe_close, pipe_isEmpty, msgq, msgq_read, msgq_isFull, msgq_close, msgq_isEmpty

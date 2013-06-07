@@ -1,0 +1,9 @@
+o Real-time UNIX systems, Design and Application Guide
+	Borko Furht, Dan Grostick, David Gluch, Guy Tabbat, John Parker,
+	Meg McRobert.
+	Kluwer Academic Publishers
+
+o Synchronization in Real-Time Systems: A Priority Inheritance Approach
+	Ragunathan Rajkumar
+	Kluwer Academic Publishers
+

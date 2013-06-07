@@ -1,0 +1,159 @@
+device_prog.txt
+Documentation Date:1999-11-1
+
+這篇文件是用於說明設備驅動程式的撰寫方式
+
+	Taunix提出了一個設備驅動程式的建議案，換句話說，你可以不依照這個建議來寫驅動程式，週邊還是能動
+，但可能以後將無法整合到新的Taunix Virtual File System上面，以提供應用程式一致的介面與程式風格。而這個設
+計建議事實上是借用Unix的驅動程式設計的觀念而來的。
+
+	在cdevsw.h裡定義了一個結構體：CDEVSW，其中的欄位有：
+
+		char *caption;
+		int owner_task;
+		int (*d_open)(int flags, int mode);
+		int (*d_close)();
+		int (*d_read)(void *buf, int size);
+		int (*d_write)(const void *buf, int size);
+		int ioctl(unsigned request, void *argp);
+		void (*read_callback)(void *param);
+		void (*write_callback)(void *param);
+
+說明如下：
+char *caption:
+	Caption僅是單純的紀錄這個驅動程式的名字，比方說，240上的SCI的驅動程式就設成"sci"，PWM驅動程式就
+	設成"pwm"，目前僅供紀錄一個有意義的符號在此。
+	為什麼要保留這個欄位在此呢？原先Taunix驅動程式的設計是希望能建立在一個具有檔案系統架構的形式上
+	，同時還要提供一個類似Unix shell的模組，供DSP與PC利用RS-232連接，PC端可透過RS-232直接對DSP下一
+	些指令‘操作’Taunix系統，或是進行遠端監控、維修，如此，每一個週邊需要有一個有意義的名字登錄在
+	檔案系統上，就像是Unix的/dev目錄下的設備，但是因為這個檔案系統架構一直遲遲未能完成，也	就是TVFS
+	:Taunix Virtual File System，這個shell程式也還沒有頭緒，更別提‘操作’Taunix系統所需的工具程式組，所以
+	終結以上，caption目前只是個保留的欄位。
+
+int owner_task:
+	相對於caption，owner_task是一個退化的欄位。在原先的Taunix設計下，每一個週邊驅動程式只能由一個工作
+	開啟與操作，這是為了達到資源鎖定的目的。但是，後來認為這樣的設計並不十分洽當，因為整個Taunix系
+	統可說是一個資源共享的系統，鎖定資源對工作與工作間造成了一些困擾，同時鎖定資源的程式碼，也減慢
+	了驅動程式的運作(每一次的d_read或d_write都要檢查是否是owner task所叫用，對高速的周邊設備而言，會浪
+	費掉太多程式碼)，因此在version 0.7.2 fast Taunix計劃的改版時，便將所有的owner_task檢查碼去除。現在
+	owner_task僅用於指示目前這個週邊設備是由誰開啟使用中，而不會有實質的限制。
+
+int (*d_open)(int flags, int mode):
+	開啟一個設備，並設定設備的旗標及操作模式，最後返回一個錯誤碼。
+	int flags與int mode是與實際的設備相關，在設計時須依照DSP的周邊設備來定義。傳回值通常是設備開啟成功
+	與否的值，一般而言1代表成功，-1代表失敗。
+
+int (*d_close)():
+	關閉一個設備，並返回一個錯誤碼。
+	d_close()則提供當設備關閉時，一些clean up的動作，像是將馬達歸零，停掉該設備的中斷等等。傳回值一樣
+	1代表成功，-1代表失敗。
+
+int (*d_read)(void *buf, int size):
+	自設備讀取資料。buf代表讀取的資料所要存放的位址，size則指明讀取的位元組數。傳回值1代表成功，-1或
+	小於零的值代表失敗及錯誤碼。
+
+int (*d_write)(cont void *buf, int size):
+	對設備寫入資料。buf為將寫入設備的資料位址，size指明將寫入的位元組數。傳回值1代表成功，-1或小於零
+	的值代表失敗或是錯誤碼。
+
+int (*d_ioctl)(unsigned int request, void *argp):
+	對設備的輸出入控制，ioctl為I/O Control的縮寫。request為對設備的設定要求，argp則是request相對所需的參數
+	資料的位址。傳回值1代表成功，-1或小於零的值代表失敗或是錯誤碼。
+
+void (*read_callback)(void *param) / void (*write_callback)(void *param):
+	這兩組回呼函式欄位是用於設定設備非同步輸出入時的回呼功能，param可用於回呼時設備希望傳進回呼函式
+	的資料位址。
+
+	實際設計驅動程式時，可針對實際設備的特性，考量是否每一個功能均要implement，比方說ADC，類比/數位
+轉換器，本來就是一個輸入用的設備，對它實作d_write()便沒有什麼實際的意義，甚至size參數也是可以改變意義的
+，只要資料型態仍是維持int，像是Taunix中的ADC的d_read()，其size參數便轉變為選擇ADC的哪一個FIFO進行讀取。
+至於回呼函式並沒有規劃固定的存取介面，目前可自行設計，未來如配合TVFS使用，則建議由d_ioctl介面完成完成
+。
+
+	以下即是一個Taunix設備驅動程式的設計範例：
+
+	#include <Taunix\cdevsw.h>
+	#include <Taunix\x240\devfoo.h> /* 假設是240的設備驅動程式 */
+
+	CDEVSW	devfoo;
+
+	void devfoo_init()
+	{
+		devfoo.d_open = devfoo_open;
+		devfoo.d_close = devfoo_close;
+		devfoo.d_read = devfoo_read;
+		devfoo.d_write = devfoo_write;
+		devfoo.read_callback = devfoo.write_callback = 0;
+		devfoo.owner_task = -1; /* 初始設定為-1，代表尚無人開啟設備 */
+		devfoo.caption = "devfoo";
+	}
+
+	int devfoo_open(int flags, int mode)
+	{
+		/* 設備的旗標設定或是操作模式設定 */
+		
+		if( success ){
+			devfoo.owner_task = current_task;
+			return 0;
+		}
+		else		return -1;
+	}
+
+	int devfoo_close()
+	{
+		/* reset devfoo */
+		if( success ){
+			devfoo.owner_task = -1;
+			retiurn 0;
+		}
+		else		return -1;
+	}
+
+	int devfoo_read(void *buf, int size)
+	{
+		/* 將資料傳進buf的空間 */
+		if( success )	return 0;
+		else		return -1;	
+	}
+
+	int devfoo_write(void *buf, int size)
+	{
+		/* 將資料寫入設備 */
+		if( success )	return 0;
+		else		return -1;
+	}
+
+	int devfoo_ioctl(unsigned int request, void *argp)
+	{
+		switch(request){
+		 case REQUEST1:
+			/* 設備操作 1 */
+			break;
+		 case REQUEST2:
+			/* 設備操作 2 */
+			break;
+
+		/* ... ... */
+		}
+		if( success )	return 0;
+		else		return -1;
+	}
+
+	如果設備要使用到中斷，則必須再設計中斷處理程式，請參考int_prog.txt。
+
+	關於回呼功能的設計，這是為了實作出非同步輸出入的功能，當設備讀取或是寫入的動作下達之後，事實上
+程式便可以返回到應用程式的工作去，留待讀取或是寫入的動作完成時，再由驅動程式回呼一個已設定好的函式，
+用於通知應用程式該命令已完成或是通知應用程式立即處理該項資料。而當回呼函式使用在中斷程式裡時，就相當
+於可讓應用程式extends中斷的處理能力，但又不必重新設計一個中斷程式。這在capture unit就顯得相當有用，因為
+capture unit可以捕捉外部不定時發生的訊號，當訊號到達時capture unit會中斷DSP，Taunix提供的capture unit驅動程式
+內的中斷處理會將當時的timer的值抓下來並當成回呼函式的參數，傳入應用程式所設定的回呼函式內，如此一來，
+可不必管中斷的運作，直接設計回呼即可，甚至，當程式運作到不同的狀態，有必要修改捕捉到訊號之後的動作的
+話，就直接變更capture回呼函式到不同的處理函式，而不必試圖設計一個複雜的中斷處理程式。
+
+	另外一個明顯的應用是SCI---DSP的RS-232通訊埠，Taunix可以一次傳輸多個位元組的資料，但允許應用程式
+的執行，與RS-232的傳輸同步運作，也就是說，程式只要將資料丟進SCI driver，就可以繼續去做別的事情，運算
+或是改變控制狀態等等，當傳輸完成後，SCI driver會利用回呼函式通知應用程式該項傳輸命令已完成。當然利用
+這個功能也可以十分方便的用來設計time out的功能。
+
+	關於回呼功能或是非同步I/O的實作，請直接參考各個設備驅動程式的設計，因為不同的設備會有不同的處理
+策略，並沒有一定的guide line。

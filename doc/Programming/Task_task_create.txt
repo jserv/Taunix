@@ -1,0 +1,26 @@
+名稱
+	task_create - 產生一個新的工作
+
+語法
+	#include <Taunix.h> 
+	or
+	#include <Taunix\Task.h>
+
+	int task_create(void (*start_add)(), void *stack, int prio, char *caption);
+
+敘述
+	task_create用於在Taunix中產生一個新的工作，新工作的起始位址在start_add，工作的函式型態應為void func()
+	的形式﹔stack是工作所要用的堆疊區域，stack可以用一個靜態的陣列或是用動態配置的記憶體區段均可﹔
+	prio則指定該工作的執行優先權，範圍在0~32(對32個工作的容量)或是0~16(對16個工作的容量)﹔caption
+	是用於指定工作的名稱，目前可設定也可不設定，並無實際的影響。
+
+傳回值
+	-1	無法增加一個新的工作，可能因為prio的設定不合法，或是該優先權已有工作佔用。
+	1	成功
+
+限制
+	Taunix的排程系統是採用固定優先權式，也就是說工作一但產生之後，就不能變更優先權，同時，同一個優
+	先權只能有一個工作，重複的優先權設定是不被接受的。
+
+參考
+	task_table_init, task_kill, task_start, resume, suspend, texit
