@@ -1,6 +1,5 @@
 /* ----------------------------------------------------------------------- 
 *
-*
 *   This program is free software; you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
 *   the Free Software Foundation, Inc., 675 Mass Ave, Cambridge MA 02139,
@@ -20,20 +19,17 @@
 |		Taunix : TAUnix's UNIX-like     |
 |                                               |
 \*---------------------------------------------*/
-		
-/*-----------------------------------------------
-Establish date: 1999-4-22	
-Author : Max Yin
-Orgnization : Tau Workshop
 
-File : F240mmrs.h
-Content:
-	TMS320C240, TMS320F240 memory-mapped registers
-		and I/O ports on EVM board.
-	
------------------------------------------------*/
-                  
-#ifndef F240MMRS_H                                   
+/* Establish date : 1999-4-22
+ * Author : Max Yin
+ * Orgnization : Tau Workshop
+ * File : F240mmrs.h
+ * Content :
+ *   TMS320C240, TMS320F240 memory-mapped registers, and I/O ports on
+ *   EVM board.
+ */
+
+#ifndef F240MMRS_H
 #define F240MMRS_H
                       
 /* Global memory and CPU interrupt registers */                                   

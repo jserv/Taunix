@@ -1,6 +1,5 @@
 /* ----------------------------------------------------------------------- 
 *
-*
 *   This program is free software; you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
 *   the Free Software Foundation, Inc., 675 Mass Ave, Cambridge MA 02139,
@@ -21,16 +20,13 @@
 |                                               |
 \*---------------------------------------------*/
 		
-/*-----------------------------------------------
-Establish date: 1999-5-24
-Author : Max Yin
-Orgnization : Tau Workshop
-
-File : CAPTURE.h
-Content:
-	Capture Unit Device
-	
------------------------------------------------*/
+/* Establish date : 1999-5-24
+ * Author : Max Yin
+ * Orgnization : Tau Workshop
+ * File : CAPTURE.h
+ * Content :
+ *   Capture Unit Device
+ */
 
 #include <Taunix\x240\F240mmrs.h>
 #include <Taunix\cdevsw.h>

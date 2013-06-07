@@ -1,6 +1,5 @@
 /* ----------------------------------------------------------------------- 
 *
-*
 *   This program is free software; you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
 *   the Free Software Foundation, Inc., 675 Mass Ave, Cambridge MA 02139,
@@ -21,18 +20,17 @@
 |                                               |
 \*---------------------------------------------*/
 		
-/*-----------------------------------------------
-Establish date: 1999-4-26	
-Author : Max Yin
-Orgnization : Tau Workshop
+/* Establish date : 1999-4-26
+ * Author : Max Yin
+ * Orgnization : Tau Workshop
+ * File : CDEVSW.h
+ * Content :
+ *   Character DEVice SWitch(CDEVSW)
+ */
 
-File : CDEVSW.h
-Content:
-	Character DEVice SWitch(CDEVSW)
-	
------------------------------------------------*/
 #ifndef CDEVSW_H
 #define CDEVSW_H
+
 typedef struct _cdevsw{
 	char *caption;
 	int   owner_task;
@@ -44,9 +42,9 @@ typedef struct _cdevsw{
 	int   (*d_xpoll)();
 	void  (*read_callback)(void *param);
 	void  (*write_callback)(void *param);
-}CDEVSW;
-
+} CDEVSW;
 
 #define BEGIN_EVM_CASE(EVIVR)	switch(EVIVR){
 #define END_EVM_CASE			}
+
 #endif

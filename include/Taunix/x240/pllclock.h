@@ -1,6 +1,5 @@
 /* ----------------------------------------------------------------------- 
 *
-*
 *   This program is free software; you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
 *   the Free Software Foundation, Inc., 675 Mass Ave, Cambridge MA 02139,
@@ -21,24 +20,21 @@
 |                                               |
 \*---------------------------------------------*/
 		
-/*-----------------------------------------------
-Establish date: 1999-4-26	
-Author : Max Yin
-Orgnization : Tau Workshop
+/* Establish date : 1999-4-26
+ * Author : Max Yin
+ * Orgnization : Tau Workshop
+ * File : PLLClock.h
+ * Content :
+ *   F240's PLL clock module device driver
+ */
 
-File : PLLClock.h
-Content:
-	F240's PLL clock module device driver
-	
------------------------------------------------*/
-/* 
- Project codename: fastTaunix
- Modified date : 1999-7-6
- Changes:
- 1. Add a macro : PLLCLK_SETUP to replace all functions 
-    in pllclock structure.
- 2. Eliminate pllclock structure and its functions.
-*/
+/* Project codename: fastTaunix
+ * Modified date : 1999-7-6
+ * Changes :
+ *   1. Add a macro : PLLCLK_SETUP to replace all functions in pllclock
+ *      structure.
+ *   2. Eliminate pllclock structure and its functions.
+ */
 
 #ifndef PLLCLOCK_H
 #define PLLCLOCK_H

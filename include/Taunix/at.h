@@ -1,6 +1,5 @@
 /* ----------------------------------------------------------------------- 
 *
-*
 *   This program is free software; you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
 *   the Free Software Foundation, Inc., 675 Mass Ave, Cambridge MA 02139,
@@ -21,17 +20,13 @@
 |                                               |
 \*---------------------------------------------*/
 
-/*-----------------------------------------------
-
-Establish date: 1999-8-21
-Author: Max Yin
-Organization: Tau Workshop
-
-File: at.h
-Content:
-	At daemon declaration to perform periodic task
-
------------------------------------------------*/
+/* Establish date : 1999-8-21
+ * Author : Max Yin
+ * Organization : Tau Workshop
+ * File : at.h
+ * Content :
+ *   At daemon declaration to perform periodic task
+ */
 
 #ifndef AT_H
 #define AT_H

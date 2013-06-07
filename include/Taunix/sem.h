@@ -1,6 +1,5 @@
 /* ----------------------------------------------------------------------- 
 *
-*
 *   This program is free software; you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
 *   the Free Software Foundation, Inc., 675 Mass Ave, Cambridge MA 02139,
@@ -21,29 +20,25 @@
 |                                               |
 \*---------------------------------------------*/
 		
-/*-----------------------------------------------
-Establish date: 1999-4-23
-Author : Max Yin
-Orgnization : Tau Workshop
-
-File : Sem.h
-Content:
+/* Establish date: 1999-4-23
+ * Author : Max Yin
+ * Orgnization : Tau Workshop
+ * File : Sem.h
+ * Content:
 	Semaphore machanism
 		o semget()
 		o pend()
 		o post()
 		o sem_pendings()
 		o sem_owner()
+ */
 
------------------------------------------------*/
+/* Modified date : 19990824.1437
+ * Changes :
+ *   The original sem does not work very good, there I re-write the whole
+ *   module. By using priList, the structure of sem should be more clear.
+ */
 
-/*
-	Modified date: 19990824.1437
-	Code Modified:
-		The original sem does not work very good, there I re-write
-		the whole module. By using priList, the structure of sem
-		should be more clear.
-*/
 #ifndef SEM_H
 #define SEM_H
 

@@ -1,6 +1,5 @@
 /* ----------------------------------------------------------------------- 
 *
-*
 *   This program is free software; you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
 *   the Free Software Foundation, Inc., 675 Mass Ave, Cambridge MA 02139,
@@ -21,18 +20,16 @@
 |                                               |
 \*---------------------------------------------*/
 		
-/*-----------------------------------------------
-Establish date: 1999-4-22	
-Author : Max Yin
-Orgnization : Tau Workshop
-
-File : Task.h
-Content:
-	Taunix's task management
-		o task_switch();
-		o TCB structure
-		o manipalation functions
------------------------------------------------*/
+/* Establish date : 1999-4-22
+ * Author : Max Yin
+ * Orgnization : Tau Workshop
+ * File : Task.h
+ * Content :
+ *   Taunix's task management
+ *     o task_switch();
+ *     o TCB structure
+ *     o manipalation functions
+ */
 
 #ifndef TASK_H
 #define TASK_H

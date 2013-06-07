@@ -1,6 +1,5 @@
 /* ----------------------------------------------------------------------- 
 *
-*
 *   This program is free software; you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
 *   the Free Software Foundation, Inc., 675 Mass Ave, Cambridge MA 02139,
@@ -21,32 +20,28 @@
 |                                               |
 \*---------------------------------------------*/
 		
-/*-----------------------------------------------
-Establish date: 1999-4-27
-Author : Max Yin
-Orgnization : Tau Workshop
+/* Establish date : 1999-4-27
+ * Author : Max Yin
+ * Orgnization : Tau Workshop
+ * File : WDRTI.h
+ * Content :
+ *   Watch-Dog/Real-Time Interrupt (WDRTI)
+ */
 
-File : WDRTI.h
-Content:
-	Watch-Dog/Real-Time Interrupt (WDRTI)
-	
------------------------------------------------*/ 
-/* 
- Project codename: fastTaunix
- Modified date : 1999-7-6
- Changes:
- 1. Eliminate wdrti structure and its functions. Only wdrti_init() is preserved
-    for initialize watch-dog and realtime interrupt.
- 2. Add some macros to access watch-dog and realtime interrupt register.
+/* Project codename : fastTaunix
+ * Modified date : 1999-7-6
+ * Changes :
+ *   1. Eliminate wdrti structure and its functions. Only wdrti_init() is
+ *      preserved for initialize watch-dog and realtime interrupt.
+ *   2. Add some macros to access watch-dog and realtime interrupt register.
+ */
 
-*/
-
-/* 
- Modified date: 1999-9-13
- Changes:
- 	Primariy changes for TMS320F243 DSP chip.
- 	1. Redefine sys_time strucure because of the lack of real-time clock on 243.
-*/
+/* Modified date : 1999-9-13
+ * Changes :
+ *   Primariy changes for TMS320F243 DSP chip.
+ *   1. Redefine sys_time strucure because of the lack of real-time clock
+ *      on 243.
+ */
 
 #ifndef WDRTI_H
 #define WDRTI_H

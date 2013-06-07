@@ -1,6 +1,5 @@
 /* ----------------------------------------------------------------------- 
 *
-*
 *   This program is free software; you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
 *   the Free Software Foundation, Inc., 675 Mass Ave, Cambridge MA 02139,
@@ -21,15 +20,14 @@
 |                                               |
 \*---------------------------------------------*/
 		
-/*-----------------------------------------------
-Establish date: 1999-4-28
-Author : Max Yin
-Orgnization : Tau Workshop
+/* Establish date : 1999-4-28
+ * Author : Max Yin
+ * Orgnization : Tau Workshop
+ * File : Event.h
+ * Content :
+ *   Event machemnism
+ */
 
-File : Event.h
-Content:
-	Event machemnism
------------------------------------------------*/
 #ifndef EVENT_H
 #define EVENT_H
 

@@ -1,6 +1,5 @@
 /* ----------------------------------------------------------------------- 
 *
-*
 *   This program is free software; you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
 *   the Free Software Foundation, Inc., 675 Mass Ave, Cambridge MA 02139,
@@ -21,19 +20,16 @@
 |                                               |
 \*---------------------------------------------*/
 		
-/*-----------------------------------------------
-Establish date: 1999-6-8
-Author : Max Yin
-Orgnization : Tau Workshop
+/* Establish date : 1999-6-8
+ * Author : Max Yin
+ * Orgnization : Tau Workshop
+ * File : PWM.h
+ * Content :
+ *   PWM Modual
+ */
 
-File : PWM.h
-Content:
-	PWM Modual
-	
------------------------------------------------*/
 #include <Taunix\x243\f243mmrs.h>
 #include <Taunix\cdevsw.h>
-
 
 #ifndef PWM_H
 #define PWM_H

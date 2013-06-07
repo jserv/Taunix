@@ -1,6 +1,5 @@
 /* ----------------------------------------------------------------------- 
 *
-*
 *   This program is free software; you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
 *   the Free Software Foundation, Inc., 675 Mass Ave, Cambridge MA 02139,
@@ -21,21 +20,20 @@
 |                                               |
 \*---------------------------------------------*/
 		
-/*-----------------------------------------------
-Establish date: 1999-8-10	
-Author : Max Yin
-Orgnization : Tau Workshop
+/* Establish date : 1999-8-10
+ * Author : Max Yin
+ * Orgnization : Tau Workshop
+ *
+ * File : Taunix.h
+ * Content:
+ *   This file contains all file you need to use Taunix/x240.
+ */
 
-File : Taunix.h
-Content:
-	This file contains all file you need to use Taunix/x240.
+/* Modified date : 1999-10-31
+ * Changes :
+ *   Add items to use Taunix/x243
+ */
 
-Modified date: 1999-10-31
-	Add items to use Taunix/x243
-	
-
-
-------------------------------------------------*/
 /* Taunix 0.7.4 for TI DSP 32Cx240 32Cx243 */
 
 /* Task management */

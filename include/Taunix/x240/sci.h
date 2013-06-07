@@ -1,6 +1,5 @@
 /* ----------------------------------------------------------------------- 
 *
-*
 *   This program is free software; you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
 *   the Free Software Foundation, Inc., 675 Mass Ave, Cambridge MA 02139,
@@ -21,16 +20,13 @@
 |                                               |
 \*---------------------------------------------*/
 		
-/*-----------------------------------------------
-Establish date: 1999-5-11	
-Author : Max Yin
-Orgnization : Tau Workshop
-
-File : sci.h
-Content:
-	Serial Communication Interface
-	
------------------------------------------------*/
+/* Establish date : 1999-5-11
+ * Author : Max Yin
+ * Orgnization : Tau Workshop
+ * File : sci.h
+ * Content :
+ *   Serial Communication Interface
+ */
 
 #include <Taunix\task.h>
 #include <Taunix\x240\f240mmrs.h>

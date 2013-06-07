@@ -1,6 +1,5 @@
 /* ----------------------------------------------------------------------- 
 *
-*
 *   This program is free software; you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
 *   the Free Software Foundation, Inc., 675 Mass Ave, Cambridge MA 02139,
@@ -21,21 +20,19 @@
 |                                               |
 \*---------------------------------------------*/
 		
-/*-----------------------------------------------
-Establish date: 1999-5-3	
-Author : Max Yin
-Orgnization : Tau Workshop
+/* Establish date: 1999-5-3
+ * Author : Max Yin
+ * Orgnization : Tau Workshop
+ * File : GPT.h
+ * Content :
+ *   General Purpose Timer
+ */
 
-File : GPT.h
-Content:
-	General Purpose Timer
------------------------------------------------*/
-/*
- Modified date: 1999-9-28
- Changes:
- 	1. 243 DSP's timer mode is changed to 4 instead of 6 modes in 240 DSP.
- 	   Change mode setting to fit 243's need.
-*/
+/* Modified date : 1999-9-28
+ * Changes :
+ *   1. 243 DSP's timer mode is changed to 4 instead of 6 modes in 240 DSP.
+ *      Change mode setting to fit 243's need.
+ */
 
 #include <Taunix\x240\f240mmrs.h>
 #include <Taunix\cdevsw.h>
@@ -202,4 +199,5 @@ int gpt_setcallback(int timer_flag,void (*callback)(void *param));
 #define GPT3_START				0x0005
 #define GPT3_STOP				0x0006
 /**/
+
 #endif

@@ -1,6 +1,5 @@
 /* ----------------------------------------------------------------------- 
 *
-*
 *   This program is free software; you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
 *   the Free Software Foundation, Inc., 675 Mass Ave, Cambridge MA 02139,
@@ -14,11 +13,11 @@
 *
 * ----------------------------------------------------------------------- */
 
-/*
- CMPCTSTR.H
- Declarations of string tools, just fitting to SCI module
- 
-*/
+/* File : CMPCTSTR.H
+ * Content:
+ *   Declarations of string tools, just fitting to SCI module
+ */
+
 /* In TI DSP, its basic memory unit is WORD, 2 bytes.
    And it's the same with char type data. Therefore
    it will waste space if your data type is based on 

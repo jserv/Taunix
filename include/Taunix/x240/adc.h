@@ -1,6 +1,5 @@
 /* ----------------------------------------------------------------------- 
 *
-*
 *   This program is free software; you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
 *   the Free Software Foundation, Inc., 675 Mass Ave, Cambridge MA 02139,
@@ -21,15 +20,13 @@
 |                                               |
 \*---------------------------------------------*/
 		
-/*-----------------------------------------------
-Establish date: 1999-5-6
-Author : Max Yin
-Orgnization : Tau Workshop
-
-File : ADC.h
-Content:
-	A/D Convertor Module for x240 and x243	
------------------------------------------------*/
+/* Establish date : 1999-5-6
+ * Author : Max Yin
+ * Orgnization : Tau Workshop
+ * File : ADC.h
+ * Content :
+ *   A/D Convertor Module for x240 and x243
+ */
 
 #include <Taunix\cdevsw.h>
 
