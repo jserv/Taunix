@@ -1,0 +1,26 @@
+名稱
+	atd_init - 週期性工作模組初始化
+
+語法
+	#include <Taunix.h> 
+	or
+	#include <Taunix\at.h>
+
+	void atd_init();
+
+敘述
+
+自 Taunix version 0.7.4 起，系統加入週期性工作的支援：ATD 模組。ATD 模組使用
+atd_init() 先進行初始化 (所以 atd_init() 必須在 main() 叫用)，初始化的同時會
+設定週期性工作表：at table，因此使用 ATD 模組時，程式內必須事先定義一份 (且
+唯一一份) 週期性工作表，否則無法通過聯結器的符號連結檢查。
+
+傳回值
+	無傳回值
+
+限制
+	週期性工作模組須配合即時時鐘或是計時器使用，否則所有的週期性工作將
+	不會被執行。
+
+參考
+	at, atkill, ATTAB
