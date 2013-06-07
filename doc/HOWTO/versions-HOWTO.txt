@@ -1,26 +1,35 @@
 versions-HOWTO.txt
 Documentation Date:1999.11.1
 
-這篇HOWTO是用於解釋Taunix的版本號碼是如何規劃的。
+這篇 HOWTO 是用於解釋 Taunix 的版本號碼是如何規劃的。
 
 
-	關於版本號碼，Taunix區分為三部份：主要版號，次要版號，及釋出號碼，解釋如下：
+關於版本號碼，Taunix 區分為三部份：主要版號，次要版號，及釋出號碼，解釋
+如下：
 
 主要版號：
-	也就是Taunix的正式版本號碼。由於目前的程式還在alpha階段，所以主要版本號碼仍在0，只有當程式
-	正式釋出時，主要或是次要版本號碼才會加一。
+
+  也就是 Taunix 的正式版本號碼。由於目前的程式還在 alpha 階段，所以主要版本
+  號碼仍在 0，只有當程式正式釋出時，主要或是次要版本號碼才會加一。
 
 次要版號：
-	代表Taunix的開發階段。
-	Taunix系統區分為四個時期：alpha測試，beta測試，釋放前版本與正式釋出版本，使用的數字區分為：
-	1~6:為正式釋出的版本。
-	7:alpha test
-	8:beta test
-	9:pre-release version
+
+  代表 Taunix 的開發階段。
+
+  Taunix 系統區分為四個時期：alpha 測試，beta 測試，釋放前版本與正式釋出
+  版本，使用的數字區分為：
+
+    1~6: 為正式釋出的版本。
+    7: alpha test
+    8: beta test
+    9: pre-release version
+
 釋出號碼：
-	代表此版的Taunix是第幾次的釋出。
 
+  代表此版的 Taunix 是第幾次的釋出。
 
-例如說，Taunix version 0.7.4，便是代表將進入第一版(主要版號為0)的alpha測試第四次的釋出版本。
+例如說，Taunix version 0.7.4，便是代表將進入第一版 (主要版號為0) 的 alpha
+測試第四次的釋出版本。
 
-如果您從任何管道取得了Taunix，那您可以經由版本號碼了解您手上這份Taunix是處於系統的什麼階段。
+如果您從任何管道取得了 Taunix，那您可以經由版本號碼了解您手上這份 Taunix
+是處於系統的什麼階段。
