@@ -14,11 +14,11 @@
 * ----------------------------------------------------------------------- */
 
 /*
-	Modified date: 19990824.1437
-	Code Modified:
-		The original sem does not work very good, therefore I re-write
-		the whole module. By using priList, the structure of sem
-		should be more clear.
+ * Modified date: 19990824.1437
+ * Code Modified:
+ *   The original sem does not work very good, therefore I re-write
+ *   the whole module. By using priList, the structure of sem should be
+ *   more clear.
 */
 
 /*#include <Taunix\task.h>
@@ -27,7 +27,6 @@
 /*#include <stdio.h>*/
 #include "task.h"
 #include "sem.h"
-
 
 SEM	sem_table[MAX_SEM];
 

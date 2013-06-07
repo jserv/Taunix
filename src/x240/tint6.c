@@ -13,11 +13,10 @@
 *
 * ----------------------------------------------------------------------- */
 
- /*
-	Change log: 19990819.0155
-	Changes:
-		Comment out the resume task statement in the ADC interrupt.
-*/
+/* Modified date: 19990819.0155
+ * Changes:
+ *   Comment out the resume task statement in the ADC interrupt.
+ */
 
 #include <Taunix\x240\f240mmrs.h>
 #include <Taunix\task.h>

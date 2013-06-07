@@ -13,29 +13,28 @@
 *
 * ----------------------------------------------------------------------- */
 
-/* 
- Project codename: fastTaunix
- Modified date : 1999-7-8
- Changes:
- 	1. Remove all owner_task checking code.
- 	2. Modify adc_read to let it be faster
- MOdified date : 1999-8-3
- Changes:
- 	1. In adc_open(), driver will automatically set OCRA register
- 	   to fit ADC's need.
+/* Project codename: fastTaunix
+ * Modified date : 1999-7-8
+ * Changes:
+ *   1. Remove all owner_task checking code.
+ *   2. Modify adc_read to let it be faster
+ */
 
-*/
+/* Modified date : 1999-8-3
+ * Changes:
+ *   1. In adc_open(), driver will automatically set OCRA register to fit
+ *      ADC's need.
+ */
 
-/*
-	BUG FIX and change design : date 199908191110
-	Changes:
-	1. Synchronous mode now is using polling, not resume the owner task,
-	   since the conversion will complete in 6us. Interrupt will cause more
-	   instruction time.
-	2. ADC driver has some design bugs(it seems that I forgot to enable ADC).
-        I didn't fully test this code that time and still I need somebody to help
-	   me to test Taunix kernel.
-*/
+/* Modified date: 199908191110
+ * Changes:
+ *   1. Synchronous mode now is using polling, not resume the owner task, since
+ *      the conversion will complete in 6us. Interrupt will cause more
+ *      instruction time.
+ *   2. ADC driver has some design bugs(it seems that I forgot to enable ADC).
+ *      I didn't fully test this code that time and still I need somebody to
+ *      help me to test Taunix kernel.
+ */
 
 #include <Taunix\x240\f243mmrs.h>
 #include <Taunix\task.h>

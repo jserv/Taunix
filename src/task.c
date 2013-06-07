@@ -13,46 +13,48 @@
 *
 * ----------------------------------------------------------------------- */
 
-/* 	Designe change:
-	Date: 19990927.1555
-	Code modified:
-		In resume(), sometimes used in callback function, it will cause 
-		the program to reset. The reason should be the hardware stack
-		overflow(maybe). Therefore, I reduce the calling depth in resume().
-		Re-introduce int_flag and change the function of shced_flag.
-		While in interrupt(int_flag == 1), resume() will not call resched().
-		Instead, modify sched_flag to SCHED_DELAYED. After the program goes 
-		back to the ISR, the ISR has to check if sched_flag is delayed. If so
-		call reshced() at this very moment.
+/* Designe change:
+ * Date: 19990927.1555
+ * Code modified:
+ *   In resume(), sometimes used in callback function, it will cause the
+ *   program to reset. The reason should be the hardware stack overflow
+ *   (maybe). Therefore, I reduce the calling depth in resume().
+ *   Re-introduce int_flag and change the function of shced_flag.
+ *   While in interrupt(int_flag == 1), resume() will not call resched().
+ *   Instead, modify sched_flag to SCHED_DELAYED. After the program goes back
+ *   to the ISR, the ISR has to check if sched_flag is delayed. If so call
+ *   reshced() at this very moment.
 */
-/*	Designe change:
-	Date: 19991021.1520
-	Code modified:
-		Originally, switch_task() is not protected by "disable_int".
-		It's possible interrupted while kernel switches task. Therefore
-		I modified resched() to let swtich_task be inside disable/enable_int
-		section. But, if a task is new created, the way it get CPU is a 
-		little different from the tasks already running. While resched()
-		calls switch_task(), the last step, longjmp(to,1), the CPU will
-		go to the starting address of a task function directly and ignores
-		the statement next to switch_task() in resched(). For a new-born
-		task, this is a problem that interrupt will not be enabled, but
-		for a already-running task, that's ok!
-	
-		I can not find a good place to re-enable interrupt while starting
-		running a new task, so I rewrite longjmp(), new routine is tlongjmp().
-		These two routines are totally the same, except that I added an 
-		instruction, CLRC INTM, before RET in tlongjmp(). Now everytime 
-		tlongjmp() is called, interrupt will be enabled.
-		
-*/
+
+/* Designe change:
+ * Date: 19991021.1520
+ * Code modified:
+ *   Originally, switch_task() is not protected by "disable_int".
+ *   It's possible interrupted while kernel switches task. Therefore I
+ *   modified resched() to let swtich_task be inside disable/enable_int
+ *   section. But, if a task is new created, the way it get CPU is a little
+ *   different from the tasks already running. While resched() calls
+ *   switch_task(), the last step, longjmp(to,1), the CPU will go to the
+ *   starting address of a task function directly and ignores the statement
+ *   next to switch_task() in resched(). For a new-born task, this is a
+ *   problem that interrupt will not be enabled, but for a already-running
+ *   task, that's ok!
+ *
+ *   I can not find a good place to re-enable interrupt while starting running
+ *   a new task, so I rewrite longjmp(), new routine is tlongjmp().
+ *   These two routines are totally the same, except that I added an
+ *   instruction, CLRC INTM, before RET in tlongjmp(). Now everytime
+ *   tlongjmp() is called, interrupt will be enabled.
+ */
+
 /* Bug fix:1999-11-2
-	There may be ghost tasks in Taunix.
-	In suspend, it will not check if the task_id task is free, not a existing task.
-	And it will do the suspension and return success. If it happens, suspends 
-	a non-existing task, and then resume that task, you will get a ghost task.
-	System may get crash. 
-*/ 
+ * There may be ghost tasks in Taunix.
+ * In suspend, it will not check if the task_id task is free, not a existing
+ * task. And it will do the suspension and return success. If it happens,
+ * suspends a non-existing task, and then resume that task, you will get a
+ * ghost task. System may get crash.
+ */
+
 #include <setjmp.h>
 /*#include <Taunix\task.h>*/
 #include "task.h"

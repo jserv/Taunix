@@ -1,6 +1,5 @@
 /* ----------------------------------------------------------------------- 
 *
-*
 *   This program is free software; you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
 *   the Free Software Foundation, Inc., 675 Mass Ave, Cambridge MA 02139,
@@ -14,25 +13,23 @@
 *
 * ----------------------------------------------------------------------- */
 
-/* 
- Project codename: fastTaunix
- Modified date : 1999-7-8
- Changes:
- 	Remove all owner_task checking code.
-
-*/
+/* Project codename: fastTaunix
+ * Modified date : 1999-7-8
+ * Changes:
+ *   Remove all owner_task checking code.
+ */
 
 /*
-	Design Change: date: 19990819.1150
-	Changes:
-	1. In sci_read/sci_write, synchronous mode is changed to use polling.
-	   Polling technique will be faster than ininterrupt driven.
+ * Modified date: 19990819.1150
+ * Changes:
+ *   1. In sci_read/sci_write, synchronous mode is changed to use polling.
+ *      Polling technique will be faster than ininterrupt driven.
 */
-/*
-	Design Change: data: 19990914.1240
-	Changes:
-	1. Fixed some incompatibilities between x240 and x243 
-*/
+
+/* Modified data: 19990914.1240
+ * Changes:
+ *   1. Fixed some incompatibilities between x240 and x243
+ */
 
 #include <Taunix\x243\sci.h>
 

@@ -13,20 +13,19 @@
 *
 * ----------------------------------------------------------------------- */
 
-/*
-  Modified date: 1999-9-13
-  Code modified:
-  1. In wdrt_init(), program cannot access RTICR originally in F240 chip.
-     That will cause a reset on F243 chip.
-  2. In wdrt_init(), use new sys_time to count ticks.
-*/
-/*
-  Modified date: 1999-10-1
-  Code modified:
-  	1. As 243 has no RTI, I use NMI to perform RTI, but need externl interrupt 
-  	   source. While Taunix initilizes, user has to config timer or something else
-  	   (ex: extra external clock) to trig NMI.
-*/                                            
+/* Modified date : 1999-9-13
+ * Changes:
+ *   1. In wdrt_init(), program cannot access RTICR originally in F240 chip.
+ *       That will cause a reset on F243 chip.
+ *   2. In wdrt_init(), use new sys_time to count ticks.
+ */
+
+/* Modified date: 1999-10-1
+ * Changes:
+ *   1. As 243 has no RTI, I use NMI to perform RTI, but need externl interrupt
+ *      source. While Taunix initilizes, user has to config timer or something
+ *      else (ex: extra external clock) to trig NMI.
+ */                                 
 
 #include <Taunix\x243\F243mmrs.h>
 #include <Taunix\x243\wdrti.h>

@@ -14,11 +14,11 @@
 * ----------------------------------------------------------------------- */
 
 /* Design note:
-	Atd is designed that can be called from general purpose timer's call-back
-	facility or any external timing trigger source. For example, on x240, one
-	can assign atd(void *param) to any timer's call-back, or just call atd(0)
-	in INT1 (real-time clock interrupt). It's up to your preference.
-
+ *
+ * Atd is designed that can be called from general purpose timer's call-back
+ * facility or any external timing trigger source. For example, on x240, one
+ * can assign atd(void *param) to any timer's call-back, or just call atd(0)
+ * in INT1 (real-time clock interrupt). It's up to your preference.
 */
 
 #include <Taunix\at.h>

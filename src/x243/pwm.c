@@ -1,6 +1,5 @@
 /* ----------------------------------------------------------------------- 
 *
-*
 *   This program is free software; you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
 *   the Free Software Foundation, Inc., 675 Mass Ave, Cambridge MA 02139,
@@ -14,13 +13,11 @@
 *
 * ----------------------------------------------------------------------- */
 
-/* 
- Project codename: fastTaunix
- Modified date : 1999-7-7
- Changes:
- 	Remove all owner_task checking code.
-
-*/
+/* Project codename: fastTaunix
+ * Modified date : 1999-7-7
+ * Changes:
+ *   Remove all owner_task checking code.
+ */
 
 #include <Taunix\task.h>
 #include <Taunix\x243\pwm.h>

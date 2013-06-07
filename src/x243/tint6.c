@@ -1,6 +1,5 @@
 /* ----------------------------------------------------------------------- 
 *
-*
 *   This program is free software; you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
 *   the Free Software Foundation, Inc., 675 Mass Ave, Cambridge MA 02139,
@@ -14,11 +13,10 @@
 *
 * ----------------------------------------------------------------------- */
 
- /*
-	Change log: 19990819.0155
-	Changes:
-		Comment out the resume task statement in the ADC interrupt.
-*/
+ /* Modified date: 19990819.0155
+  * Changes:
+  *   Comment out the resume task statement in the ADC interrupt.
+  */
 
 #include <Taunix\x243\f243mmrs.h>
 #include <Taunix\task.h>

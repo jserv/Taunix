@@ -13,22 +13,19 @@
 *
 * ----------------------------------------------------------------------- */
 
-/* 
- Project codename: fastTaunix
- Modified date : 1999-7-8
- Changes:
- 	Remove the owner_task checking.
- 	
+/* Project codename: fastTaunix
+ * Modified date : 1999-7-8
+ * Changes:
+ *   Remove the owner_task checking.
+ */	
 
-*/
-/* Modified date: 1999-10-7
-	Changes:
-		1. Change ISR format to satisfy version 0.7.4.
-		2. Since 243's event manager has been removed EVIVRA,B,C,
-		   the peripheral interrupt vectors are reported by PIVR
-		   and EVIFRA,B,C. Therefore the switch-case structure 
-		   in ISR must change to fit 243's need.
-*/
+/* Modified date : 1999-10-7
+ * Changes:
+ *   1. Change ISR format to satisfy version 0.7.4.
+ *   2. Since 243's event manager has been removed EVIVRA,B,C, the peripheral
+ *      interrupt vectors are reported by PIVR and EVIFRA,B,C. Therefore the
+ *      switch-case structure in ISR must change to fit 243's need.
+ */
 
 #include <Taunix\x243\capture.h>
 #include <Taunix\task.h>

@@ -13,25 +13,25 @@
 *
 * ----------------------------------------------------------------------- */
 
-/* 
- Project codename: fastTaunix
- Modified date : 1999-7-7
- Changes:
- 	1. Remove all owner_task checking
- 	2. Modify gpt_read()/gpt_write()
+/* Project codename: fastTaunix
+ * Modified date : 1999-7-7
+ * Changes:
+ *   1. Remove all owner_task checking
+ *   2. Modify gpt_read()/gpt_write()
+ */
 
- Modified date : 1999-8-3
- Changes:
- 	1. In gpt_open(), driver will automatically set OCRA register
- 	   to fit timer's need 
-*/
-/*
- Modified date: 1999-9-28
- Changes:
- 	1. Change "gptimer" to "gpt".
- 	2. In gpt_init(), I forgot to set call-back function to NULL.
- 	   Now this has been corrected.
-*/
+/* Modified date : 1999-8-3
+ * Changes:
+ *   1. In gpt_open(), driver will automatically set OCRA register to fit
+ *      timer's need
+ */
+
+/* Modified date: 1999-9-28
+ * Changes:
+ *   1. Change "gptimer" to "gpt".
+ *   2. In gpt_init(), I forgot to set call-back function to NULL.
+ *       Now this has been corrected.
+ */
 
 #include <Taunix\task.h>
 #include <Taunix\x240\gpt.h>
