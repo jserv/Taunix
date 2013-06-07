@@ -1,57 +1,80 @@
 Overview.txt
 Documentation Date:1999-11-1
 
-這篇文件是用於說明Taunix的系統概觀。
+這篇文件是用於說明 Taunix 的系統概觀。
 
 
 簡介：
-	Taunix是一套用於TI 320Cx24x晶片上，幾乎完全使用C語言所實作的即時多工核心系統，具有高度的
-可攜性(portability)與可調整性(scalibility)。除多工核心外Taunix也提供x24xDSP on-chip的週邊設
-備的驅動程式，以簡化DSP應用軟體的開發時程。目前已經測試過可在x240及x243上運作無誤，將來也可能會
-port到TI其他的DSP晶片，或是其他的為控制器晶片上。
+
+Taunix 是一套用於 TI 320Cx24x 晶片上，幾乎完全使用 C 語言所實作的即時多工
+核心系統，具有高度的可攜性 (portability) 與可調整性 (scalibility)。除多工
+核心外，Taunix 也提供 x24x DSP on-chip 的週邊設備的驅動程式，以簡化 DSP
+應用軟體的開發時程。目前已經測試過可在 x240 及 x243 上運作無誤，將來也可能
+會 port 到 TI 其他的 DSP 晶片，或是其他的為控制器晶片上。
 
 
 系統架構：
-	整個Taunix系統可大致區分為五個部分：即時多工核心、中斷系統、驅動程式、行程間通訊及使用者應
-用程式。
 
-	1)即時多工核心：Task模組
-		Task模組為組成Taunix最為重要的部分：負責Taunix的工作排程，工作的產生、結束、暫停與回
-		復，均需經由Task模組進行。
-	2)中斷系統
-		24x DSP提供有許多的中斷層級，來讓週邊的訊號能與程式發生互動。Taunix規範出一套中斷程式
-		的設計架構，能讓應用程式可以十分間單的與周邊系統來溝通。
-	3)驅動程式
-		x24xDSP上有相當多的週邊：SCI, Capture uinit, Space vector PWM, ADC等等，Taunix中設
-		計了一整套的設備驅動程式供應用程式使用，可縮短應用程式的開發時程，同時也可使應用程式與
-		硬體區隔開，達成硬體無關且高度可攜的程式設計。
-		在驅動程式的設計上，實作了同步與非同步的輸出入模式，可讓程式更有效的提高CPU core的
-		utilization。
-	4)行程間通訊
-		Taunix提供pipe/message queue、semaphore、event等機制供應用程式互通資訊。
-	5)使用者應用程式
-		當然Taunix是設計來有效率地安排程式執行。
+整個 Taunix 系統可大致區分為五個部分：即時多工核心、中斷系統、驅動程式、
+行程間通訊及使用者應用程式。
+
+  (1) 即時多工核心：Task 模組
+
+    Task 模組為組成 Taunix 最為重要的部分：負責 Taunix 的工作排程，工作的
+    產生、結束、暫停與回復，均需經由 Task 模組進行。
+
+  (2) 中斷系統
+
+    24x DSP 提供有許多的中斷層級，來讓週邊的訊號能與程式發生互動。Taunix
+    規範出一套中斷程式的設計架構，能讓應用程式可以十分間單的與周邊系統來
+    溝通。
+
+  (3) 驅動程式
+
+    x24x DSP 上有相當多的週邊：SCI, Capture uinit, Space vector PWM, ADC
+    等等，Taunix 中設計了一整套的設備驅動程式供應用程式使用，可縮短應用
+    程式的開發時程，同時也可使應用程式與硬體區隔開，達成硬體無關且高度可攜
+    的程式設計。
+
+    在驅動程式的設計上，實作了同步與非同步的輸出入模式，可讓程式更有效的
+    提高 CPU core 的 utilization。
+
+  (4) 行程間通訊
+
+    Taunix 提供 pipe/message queue、semaphore、event 等機制供應用程式互通
+    資訊。
+
+  (5) 使用者應用程式
+
+    當然 Taunix 是設計來有效率地安排程式執行。
+
 
 排程法則：
-	目前的排程系統是採用MC/OS延伸出來的排程法則，可支援32/16個固定優先權的工作。在Taunix 
-	version 0.7.4又加入了對週期性工作的排程副系統，除此之外，目前尚不支援round-robin或是其他方
-	式的排程。
 
-	PS:所以Taunix是屬於priority-based with time service enhanced的系統。
+目前的排程系統是採用 uC/OS 延伸出來的排程法則，可支援 32/16 個固定優先權
+的工作。在 Taunix version 0.7.4 又加入了對週期性工作的排程副系統，除此之
+外，目前尚不支援 round-robin 或是其他方式的排程。
 
-	另外值得一提的是關於Taunix的工作切換程式。Taunix的工作切換區分為兩個層次：自願與非自願。所謂
-	自願切換就是指程式執行到一個階段，認為可以暫停執行，並將CPU交給下一個等待的工作，例如同步I/O
-	，當工作在等候慢速I/O完成動作的時間，系統便可以切換到下一個工作去執行。而非自願的切換就是指系
-	統中斷。Taunix在實作工作切換(此處不稱內文切換context switch是有道理的)方面，採用TI C library
-	裡的setjmp/longjmp函式，再加上Taunix對longjmp的補強，也就是說連工作切換這類低階的動作，也已
-	經利用系統函式予以實作，大幅增加系統的可移植性。
+所以 Taunix 是屬於 priority-based with time service enhanced 的系統。
+
+另外值得一提的是關於 Taunix 的工作切換程式。Taunix 的工作切換區分為兩個
+層次：自願與非自願。所謂自願切換就是指程式執行到一個階段，認為可以暫停
+執行，並將 CPU 交給下一個等待的工作，例如同步 I/O，當工作在等候慢速 I/O
+完成動作的時間，系統便可以切換到下一個工作去執行。而非自願的切換就是指系統
+中斷。Taunix 在實作工作切換(此處不稱內文切換 context switch 是有道理的)
+方面，採用 TI C library 裡的 setjmp/longjmp 函式，再加上 Taunix 對 longjmp
+的補強，也就是說連工作切換這類低階的動作，也已經利用系統函式予以實作，大幅
+增加系統的可移植性。
+
 
 驅動程式：
-	x24x DSP chip有相當多的周邊，Taunix中也設計了一套支援x24x的驅動程式庫，但為了能有效簡化將來
-	應用程式了設計，Taunix將所有週邊的存取介面予以一致化。這部分的設計是取材自Unix的驅動程式設計
-	：switch table的概念與Unix system call的介面慣例，在DSP上實作出open()/close()/read()/write()
-	/iocntl()等介面，同時為支援非同步的輸出入模式，Taunix的驅動程式亦加入了回呼函式的設計，可讓
-	驅動程式適時的叫用應用程式所設定的回呼函式。
 
-	更進一步的TVFS: Taunix Virtual File System虛擬檔案系統層尚在規劃當中，未來當可加進系統中，
-提供系統核心與應用程式分別編譯上載的機制。
+x24x DSP chip 有相當多的周邊，Taunix 中也設計了一套支援 x24x 的驅動程式庫，
+但為了能有效簡化將來應用程式了設計，Taunix 將所有週邊的存取介面予以一致化。
+這部分的設計是取材自 Unix 的驅動程式設計：switch table 的概念與 Unix system
+call 的介面慣例，在 DSP 上實作出 open() / close() / read() / write() /
+ioctl() 等介面，同時為支援非同步的輸出入模式，Taunix 的驅動程式亦加入了回呼
+函式的設計，可讓驅動程式適時的叫用應用程式所設定的回呼函式。
+
+更進一步的 TVFS (Taunix Virtual File System) 虛擬檔案系統層尚在規劃當中，
+未來當可加進系統中，提供系統核心與應用程式分別編譯上載的機制。
